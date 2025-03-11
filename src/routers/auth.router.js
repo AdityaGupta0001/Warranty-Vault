@@ -1,7 +1,7 @@
 import express from 'express';
 const authRouter = express.Router();
 import { verifyToken } from '../middleware/auth.middleware.js';
-import firebaseAuthController from '../controllers/auth/auth.controller.js';
+import firebaseAuthController from '../controllers/auth.controller.js';
 
 authRouter.post('/api/register', firebaseAuthController.registerUser);
 authRouter.post('/api/login', firebaseAuthController.loginUser);    
