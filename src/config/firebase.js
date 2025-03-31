@@ -13,14 +13,6 @@
   import admin from "firebase-admin";
   import { readFile } from "fs/promises";
 
-  const serviceAccount = JSON.parse(
-    await readFile(new URL("../FirebaseService.json", import.meta.url))
-  );
-  
-  admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
-  });
-
   const firebaseConfig = {
     apiKey: process.env.FIREBASE_API_KEY,
     authDomain: process.env.FIREBASE_AUTH_DOMAIN,
