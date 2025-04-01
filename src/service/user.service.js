@@ -1,4 +1,5 @@
 import { getDB } from "../config/db.js";
+import { uploadToCloudinary } from "../utils/cloudinary.js";
 import userSchema from "../schema/auth.schema.js";
 
 const collection = "users";
@@ -35,5 +36,25 @@ export const updateUser = async (uid, updates) => {
     } catch (error) {
         console.error("Error updating user:", error);
         throw new Error("Database error");
+    }
+};
+
+export const uploadUserProfilePic = async (userId, file) => {
+    try {
+      // Upload to Cloudinary
+      const profilePicUrl = await uploadToCloudinary(file, `profile_${userId}`);
+  
+      // Update user document in MongoDB
+      const db = getDB();
+      await db.collection("users").updateOne(
+        { uid: userId },
+        { $set: { profilePic: profilePicUrl } }
+      );
+  
+      return profilePicUrl;
+  
+    } catch (error) {
+      console.error("Error in uploadUserProfilePic:", error);
+      throw new Error("Profile picture upload failed");
     }
 };

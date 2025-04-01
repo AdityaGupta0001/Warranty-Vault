@@ -22,3 +22,23 @@ export const updateUser = async (req, res) => {
         res.status(500).json({ error: "Failed to update user details" });
     }
 };
+
+export const uploadProfilePic = async (req, res) => {
+    try {
+      const userId = req.user.uid;
+      const file = req.file;
+  
+      if (!file) {
+        return res.status(400).json({ error: "No file uploaded" });
+      }
+  
+      // Call service function to upload image and update user profile
+      const profilePicUrl = await userService.uploadUserProfilePic(userId, file);
+  
+      return res.json({ message: "Profile picture updated successfully", profilePic: profilePicUrl });
+  
+    } catch (error) {
+      console.error("Error in uploadProfilePic:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  };
