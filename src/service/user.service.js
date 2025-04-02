@@ -1,6 +1,6 @@
 import { getDB } from "../config/db.js";
 import { uploadToCloudinary } from "../utils/cloudinary.js";
-import userSchema from "../schema/auth.schema.js";
+import userSchema from "../schema/user.schema.js";
 
 const collection = "users";
 

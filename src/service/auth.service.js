@@ -2,7 +2,7 @@ import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, se
 import { getDB } from "../config/db.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { userSchema } from "../schema/auth.schema.js";
+import { userSchema } from "../schema/user.schema.js";
 
 const auth = getAuth();
 
