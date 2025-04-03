@@ -1,6 +1,7 @@
 import express from "express";
 import { authRouter } from "./routers/auth.router.js";
 import { userRouter } from "./routers/user.router.js";
+import { productRouter } from "./routers/product.router.js";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 import cors from 'cors';
@@ -27,6 +28,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(authRouter);
 app.use(userRouter);
+app.use(productRouter);
 
 
 app.options("*", (req, res) => {
