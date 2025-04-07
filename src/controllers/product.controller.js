@@ -1,14 +1,25 @@
 import * as productService from "../service/product.service.js";
+import { extractDataFromPDF } from "../utils/ocr.js";
 
 export const addProduct = async (req, res) => {
     try {
         const userId = req.user.uid;
-        const productData = {
-            userId,
-            ...req.body,
-            createdAt: new Date(),
-            updatedAt: new Date(),
-        };
+        let productData;
+
+        if (req.file) {
+            console.log("Processing file upload...");
+            const extractedData = await extractDataFromPDF(req.file);
+            
+            if (!extractedData) {
+                return res.status(400).json({ error: "Failed to extract data from PDF" });
+            }
+            productData = extractedData;
+        } else {
+            console.log("Processing manual entry...");
+            productData = req.body;
+        }
+
+        productData.userId = userId;
 
         const newProduct = await productService.createProduct(productData);
         res.status(201).json(newProduct);
