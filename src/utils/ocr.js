@@ -31,7 +31,6 @@ const ocrSpaceFile = async (fileBuffer, originalName) => {
 };
 
 const analyzeWithGroq = async (text) => {
-  console.log(api_key);
     try {
       const groq = new Groq({ apiKey: GROQ_KEY });
   
