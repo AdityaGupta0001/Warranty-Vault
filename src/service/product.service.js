@@ -8,6 +8,9 @@ const collection = "products";
 export const createProduct = async (productData) => {
     try {
         const db = getDB();
+        productData.createdAt = new Date();
+        productData.updatedAt = new Date();
+        
         const newProduct = productSchema(productData);
         await db.collection(collection).insertOne(newProduct);
         return newProduct;
