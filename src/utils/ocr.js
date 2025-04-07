@@ -8,7 +8,6 @@ dotenv.config();
 const OCR_KEY = process.env.OCR_API_KEY;
 
 const GROQ_KEY = process.env.GROQ_API_KEY2;
-const filePath = 'C:/Users/Dell/Desktop/Warranty Vault Backend/src/guitar_stand_warranty.pdf';  // File to OCR
 
 // Function to send file to OCR.space
 const ocrSpaceFile = async (fileBuffer, originalName) => {
