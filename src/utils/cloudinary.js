@@ -35,3 +35,31 @@ export const uploadToCloudinary = (file, publicId) => {
     uploadStream.end(file.buffer);
   });
 };
+
+export const uploadDocumentToCloudinary = (file, publicId) => {
+  return new Promise((resolve, reject) => {
+    const uploadStream = cloudinary.uploader.upload_stream(
+      {
+        resource_type: "raw", // for non-images like PDFs
+        folder: "warranty_docs",
+        public_id: publicId,
+        format: "pdf",
+      },
+      (error, result) => {
+        if (error) {
+          console.error("Cloudinary PDF upload error:", error);
+          reject(error);
+        } else {
+          resolve(result.secure_url);
+        }
+      }
+    );
+
+    uploadStream.end(file.buffer);
+  });
+};
+
+export const deleteFromCloudinary = (productId) => {
+  return cloudinary.uploader.destroy(`warranty_docs/${productId}.pdf`, { resource_type: "raw" });
+};
+

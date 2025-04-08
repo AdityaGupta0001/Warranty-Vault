@@ -23,4 +23,14 @@ const uploadFile = multer({
   }
 });
 
-export {upload, uploadFile};
+const pdfUpload = multer({
+  limits: { fileSize: 1 * 1024 * 1024 }, // 1MB
+  fileFilter: (req, file, cb) => {
+    if (file.mimetype !== "application/pdf") {
+      return cb(new Error("Only PDF files are allowed!"), false);
+    }
+    cb(null, true);
+  },
+});
+
+export {upload, uploadFile, pdfUpload};
