@@ -6,10 +6,8 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const OCR_KEY = process.env.OCR_API_KEY;
-
 const GROQ_KEY = process.env.GROQ_API_KEY2;
 
-// Function to send file to OCR.space
 const ocrSpaceFile = async (fileBuffer, originalName) => {
     const form = new FormData();
     form.append('apikey', OCR_KEY);
@@ -84,8 +82,6 @@ const analyzeWithGroq = async (text) => {
     }
   };
   
-
-// Main Execution
 export const extractDataFromPDF = async (file) => {
     try {
       console.log("Extracting text with OCR.space...");
