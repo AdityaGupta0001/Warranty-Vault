@@ -1,6 +1,6 @@
 import { getDB } from "../config/db.js";
 import { uploadToCloudinary } from "../utils/cloudinary.js";
-import userSchema from "../schema/user.schema.js";
+import { userSchema,updateUserSchema } from "../schema/user.schema.js";
 
 const collection = "users";
 
@@ -25,14 +25,19 @@ export const updateUser = async (uid, updates) => {
         }
 
         // Merge existing data with updates while maintaining the schema structure
-        const updatedUserData = userSchema({
+        const updatedUserData = updateUserSchema({
             ...existingUser,
             ...updates,
             address: { ...existingUser.address, ...updates.address }
         });
 
         await db.collection(collection).updateOne({ uid }, { $set: updatedUserData });
-        return updatedUserData;
+        
+        const updatedUser = await db.collection(collection).findOne({ uid });
+        if (!updatedUser) {
+            throw new Error("User not found");
+        }
+        return updatedUser;
     } catch (error) {
         console.error("Error updating user:", error);
         throw new Error("Database error");

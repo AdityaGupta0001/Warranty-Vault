@@ -32,4 +32,30 @@ export const userSchema = ({
   createdAt               // Account creation timestamp (default: current date)
 });
 
-export default userSchema;
+export const updateUserSchema = ({
+  uid,
+  name,
+  phone = null,
+  profilePic = null,
+  address = {
+    street: null,
+    city: null,
+    state: null,
+    zip: null,
+    country: null
+  },
+  createdAt = new Date()
+}) => ({
+  uid,                    // Unique identifier (Firebase UID or MongoDB ID)
+  name,                   // Full name (Required)
+  phone,                  // Optional phone number (default: null)
+  profilePic,             // Optional profile picture URL (default: null)
+  address: {              // Optional address fields (default: null)
+    street: address.street,
+    city: address.city,
+    state: address.state,
+    zip: address.zip,
+    country: address.country
+  },
+  createdAt               // Account creation timestamp (default: current date)
+});
