@@ -34,14 +34,15 @@ class AuthController {
   }
 
   async resetPassword(req, res) {
-    const { email, newPassword } = req.body;
+    const { newPassword } = req.body;
+    const userId = req.user.uid;
 
-    if (!email || !newPassword) {
-      return res.status(422).json({ error: "Email and new password required" });
+    if (!newPassword) {
+      return res.status(422).json({ error: "New password required" });
     }
 
     try {
-      const response = await authService.resetPassword(email, newPassword);
+      const response = await authService.resetPassword(userId,newPassword);
       res.status(200).json(response);
     } catch (error) {
       res.status(500).json({ error: error.message });

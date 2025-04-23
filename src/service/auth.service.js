@@ -20,12 +20,9 @@ class AuthService {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
 
-    const hashedPassword = await bcrypt.hash(password, 10);
-
     const newUser = userSchema({
       uid: user.uid,
       email,
-      password: hashedPassword,
       name
     });
     await usersCollection.insertOne(newUser);
@@ -44,24 +41,17 @@ class AuthService {
     return { message: "User logged in successfully", token };
   }
 
-  async resetPassword(email, newPassword) {
+  async resetPassword(uid, newPassword) {
     const db = getDB();
     const usersCollection = db.collection("users");
-
-    const hashedPassword = await bcrypt.hash(newPassword, 10);
-
-    const result = await usersCollection.updateOne(
-      { email },
-      { $set: { password: hashedPassword } }
-    );
-
-    if (result.modifiedCount === 0) {
+    const user = await usersCollection.findOne({ uid });
+    console.log(user);
+    if (!user) {
       throw new Error("User not found");
     }
 
-    await sendPasswordResetEmail(auth, email);
-
-    return { message: "Password updated successfully" };
+    await sendPasswordResetEmail(auth, user.email);
+    return { message: "Password reset email sent. Please check your inbox." };
   }
 
   async logoutUser() {
