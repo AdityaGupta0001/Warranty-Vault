@@ -4,6 +4,7 @@ import { userRouter } from "./routers/user.router.js";
 import { productRouter } from "./routers/product.router.js";
 import { documentRouter } from "./routers/document.router.js";
 import { reminderRouter } from "./routers/reminder.router.js";
+import { scraperRouter } from "./routers/scraper.router.js";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 import cors from 'cors';
@@ -33,6 +34,7 @@ app.use(userRouter);
 app.use(productRouter);
 app.use(documentRouter);
 app.use(reminderRouter);
+app.use(scraperRouter);
 
 
 app.options("*", (req, res) => {
